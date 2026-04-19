@@ -1,8 +1,9 @@
 'use client';
 
+export const dynamic = 'force-dynamic';   // 👈 ADD THIS LINE
+
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-
 export default function AdminAllSubmissionsRedirectPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
