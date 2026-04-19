@@ -1,0 +1,199 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Admin
+  HOD
+  Caretaker
+  Dean
+  Faculty
+  Assistant_Registrar
+  Mess_Manager
+}
+
+enum SubmissionStatus {
+  Pending
+  Approved
+  Rejected
+  SentBack
+}
+
+enum LogAction {
+  // User actions
+  USER_CREATED
+  USER_UPDATED
+  USER_DELETED
+
+  // Verifier actions
+  VERIFIER_CREATED
+  VERIFIER_UPDATED
+  VERIFIER_DELETED
+
+  // Form actions
+  FORM_CREATED
+  FORM_UPDATED
+  FORM_DELETED
+  FORM_STATUS_TOGGLED
+
+  // Verifier chain actions
+  VERIFIER_LEVEL_ADDED
+  VERIFIER_LEVEL_REMOVED
+  VERIFIER_LEVEL_REORDERED
+
+  // Submission actions
+  SUBMISSION_CREATED
+  SUBMISSION_UPDATED
+  SUBMISSION_DELETED
+
+  // Verification actions
+  VERIFICATION_APPROVED
+  VERIFICATION_REJECTED
+  VERIFICATION_REMARKED
+  SUBMISSION_RESUBMITTED
+}
+
+enum ActorType {
+  User
+  Verifier
+  System
+}
+
+model User {
+  id              String            @id @default(uuid()) @db.Uuid
+  userName        String
+  email           String            @unique
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  formSubmissions FormSubmissions[]
+  logs            AuditLog[]        @relation("UserLogs")
+}
+
+model Verifier {
+  id                  String               @id @default(uuid()) @db.Uuid
+  userName            String
+  email               String               @unique
+  role                Role
+  department          String
+  mobileNo            String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  formVerifierLevels  FormVerifierLevel[]
+  verificationActions VerificationAction[]
+  logs                AuditLog[]           @relation("VerifierLogs")
+}
+
+model Form {
+  id              Int                 @id @default(autoincrement())
+  title           String
+  description     String
+  deadline        DateTime
+  formStatus      Boolean             @default(true)
+  formFields      Json
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  verifiersList   FormVerifierLevel[]
+  formSubmissions FormSubmissions[]
+  logs            AuditLog[]          @relation("FormLogs")
+}
+
+// Join table — defines ordered verification chain per form
+model FormVerifierLevel {
+  id         String   @id @default(uuid()) @db.Uuid
+  formId     Int
+  form       Form     @relation(fields: [formId], references: [id])
+  verifierId String   @db.Uuid
+  verifier   Verifier @relation(fields: [verifierId], references: [id])
+  level      Int
+
+  createdAt  DateTime @default(now())
+
+  @@unique([formId, level])
+  @@unique([formId, verifierId])
+}
+
+model FormSubmissions {
+  id                  String               @id @default(uuid()) @db.Uuid
+  userId              String               @db.Uuid
+  user                User                 @relation(fields: [userId], references: [id])
+  formId              Int
+  form                Form                 @relation(fields: [formId], references: [id])
+  formData            Json
+  currentLevel        Int                  @default(1)
+  overallStatus       SubmissionStatus     @default(Pending)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  verificationActions VerificationAction[]
+  logs                AuditLog[]           @relation("SubmissionLogs")
+
+  @@index([formId])
+  @@index([userId])
+  @@index([formId, createdAt])
+  @@index([createdAt])
+}
+
+model VerificationAction {
+  id           String           @id @default(uuid()) @db.Uuid
+  submissionId String           @db.Uuid
+  submission   FormSubmissions  @relation(fields: [submissionId], references: [id])
+  verifierId   String           @db.Uuid
+  verifier     Verifier         @relation(fields: [verifierId], references: [id])
+  level        Int
+  status       SubmissionStatus
+  remark       String?
+  actionAt     DateTime         @default(now())
+
+  @@unique([submissionId, level])
+}
+
+// ──────────────────────────────────────────────
+//  AUDIT LOG
+// ──────────────────────────────────────────────
+
+model AuditLog {
+  id         String    @id @default(uuid()) @db.Uuid
+
+  // What happened
+  action     LogAction
+  entity     String    // e.g. "FormSubmissions", "Form", "Verifier"
+  entityId   String    // the PK of the affected record (stored as string)
+
+  // Who did it — one of these will be set, rest null
+  actorType  ActorType
+  actorUserId     String?   @db.Uuid
+  actorUser       User?     @relation("UserLogs", fields: [actorUserId], references: [id])
+  actorVerifierId String?   @db.Uuid
+  actorVerifier   Verifier? @relation("VerifierLogs", fields: [actorVerifierId], references: [id])
+
+  // Context
+  formId       Int?      // quick filter by form
+  form         Form?     @relation("FormLogs", fields: [formId], references: [id])
+  submissionId String?   @db.Uuid
+  submission   FormSubmissions? @relation("SubmissionLogs", fields: [submissionId], references: [id])
+
+  // Payload
+  diff       Json?     // { before: {...}, after: {...} } for updates
+  meta       Json?     // any extra context (IP, user-agent, remarks, etc.)
+
+  createdAt  DateTime  @default(now())
+
+  @@index([action])
+  @@index([entity, entityId])
+  @@index([actorUserId])
+  @@index([actorVerifierId])
+  @@index([formId])
+  @@index([submissionId])
+  @@index([createdAt])
+}

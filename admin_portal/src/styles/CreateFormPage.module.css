@@ -1,0 +1,718 @@
+/* ============================================
+   MODERN PREMIUM UI - CREATE FORM PAGE
+   ============================================ */
+
+:root {
+  /* Primary Gradient */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  
+  /* Dark Mode Gradients */
+  --gradient-primary-dark: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary-dark: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-accent-dark: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  
+  /* Colors */
+  --color-primary: #1e3a8a;
+  --color-primary-light: #3b82f6;
+  --color-secondary: #14b8a6;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  
+  /* Light Mode */
+  --bg-light: #ffffff;
+  --bg-light-secondary: #f9fafb;
+  --bg-light-tertiary: #f3f4f6;
+  --text-light: #111827;
+  --text-light-secondary: #6b7280;
+  --border-light: #e5e7eb;
+  --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-light-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  /* Dark Mode */
+  --bg-dark: #0f172a;
+  --bg-dark-secondary: #1e293b;
+  --bg-dark-tertiary: #334155;
+  --text-dark: #f1f5f9;
+  --text-dark-secondary: #cbd5e1;
+  --border-dark: #475569;
+  --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-dark-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   MAIN PAGE CONTAINER
+   ============================================ */
+
+.page {
+  font-family: 'Poppins', 'Inter', sans-serif;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+
+.pageHeader {
+  margin-bottom: 2rem;
+  animation: slideInDown 0.5s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pageHeader h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+:global(.dark) .pageHeader h1 {
+  background: var(--gradient-primary-dark);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pageHeader p {
+  color: var(--text-light-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+:global(.dark) .pageHeader p {
+  color: var(--text-dark-secondary);
+}
+
+/* ============================================
+   CARD STYLES
+   ============================================ */
+
+.card {
+  background: var(--bg-light);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-light-sm);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-light);
+  transform: translateY(-2px);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+:global(.dark) .card {
+  background: var(--bg-dark-secondary);
+  border-color: var(--border-dark);
+  box-shadow: var(--shadow-dark-sm);
+}
+
+:global(.dark) .card:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-dark);
+}
+
+/* ============================================
+   SECTION TITLES
+   ============================================ */
+
+.sectionTitle {
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.2px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionTitle::before {
+  content: '';
+  width: 3px;
+  height: 24px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+}
+
+:global(.dark) .sectionTitle {
+  color: var(--text-dark);
+}
+
+:global(.dark) .sectionTitle::before {
+  background: var(--gradient-primary-dark);
+}
+
+/* ============================================
+   QUICK ADD CHIPS
+   ============================================ */
+
+.quickChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 2px solid var(--border-light);
+  background: var(--bg-light);
+  color: var(--text-light-secondary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.quickChip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-primary);
+  z-index: -1;
+  transition: left 0.3s ease;
+}
+
+.quickChip:hover:not(.quickChipAdded) {
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.quickChip:hover:not(.quickChipAdded)::before {
+  left: 0;
+}
+
+.quickChipAdded {
+  background: var(--bg-light-tertiary);
+  color: var(--text-light-secondary);
+  border-color: var(--border-light);
+  cursor: not-allowed;
+  text-decoration: line-through;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.quickChipAdded::after {
+  content: '✓';
+  margin-left: 0.25rem;
+  color: var(--color-success);
+  font-weight: 800;
+}
+
+:global(.dark) .quickChip {
+  background: var(--bg-dark-secondary);
+  border-color: var(--border-dark);
+  color: var(--text-dark-secondary);
+}
+
+:global(.dark) .quickChipAdded {
+  background: rgba(102, 126, 234, 0.1);
+  color: var(--text-dark-secondary);
+  border-color: var(--border-dark);
+}
+
+/* ============================================
+   TYPE SELECTOR
+   ============================================ */
+
+.typeSelector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  border: 2px solid var(--border-light);
+  background: var(--bg-light);
+  color: var(--text-light-secondary);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.typeSelector::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-accent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: -1;
+}
+
+.typeSelector:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-light);
+  transform: translateY(-1px);
+}
+
+.typeSelectorActive {
+  background: var(--gradient-primary);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+:global(.dark) .typeSelector {
+  background: var(--bg-dark-secondary);
+  border-color: var(--border-dark);
+}
+
+:global(.dark) .typeSelectorActive {
+  background: var(--gradient-primary-dark);
+}
+
+/* ============================================
+   INPUT STYLES
+   ============================================ */
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 2px solid var(--border-light);
+  border-radius: 0.875rem;
+  outline: none;
+  background: var(--bg-light);
+  color: var(--text-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  letter-spacing: 0.3px;
+}
+
+.input::placeholder {
+  color: var(--text-light-secondary);
+  opacity: 0.7;
+}
+
+.input:focus {
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--bg-light);
+  transform: translateY(-1px);
+}
+
+.input:hover:not(:focus) {
+  border-color: var(--text-light-secondary);
+}
+
+:global(.dark) .input {
+  background: var(--bg-dark-tertiary);
+  color: var(--text-dark);
+  border-color: var(--border-dark);
+}
+
+:global(.dark) .input::placeholder {
+  color: var(--text-dark-secondary);
+}
+
+:global(.dark) .input:focus {
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* ============================================
+   ADD CUSTOM FIELD BUTTON
+   ============================================ */
+
+.addFieldBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 2.5px dashed var(--border-light);
+  background: linear-gradient(135deg, rgba(249, 250, 251, 0.5), rgba(243, 244, 246, 0.5));
+  color: var(--text-light-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.addFieldBtn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--gradient-primary), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+
+.addFieldBtn:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+}
+
+.addFieldBtn:hover::before {
+  opacity: 0.1;
+}
+
+.addFieldBtn > * {
+  position: relative;
+  z-index: 1;
+}
+
+:global(.dark) .addFieldBtn {
+  background: linear-gradient(135deg, rgba(30, 41, 55, 0.5), rgba(51, 65, 85, 0.5));
+  border-color: var(--border-dark);
+}
+
+:global(.dark) .addFieldBtn:hover {
+  border-color: var(--color-primary-light);
+}
+
+/* ============================================
+   FORM CANVAS FIELD CARD
+   ============================================ */
+
+.fieldCard {
+  position: relative;
+  border: 2px solid var(--border-light);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, rgba(249, 250, 251, 0.8), rgba(255, 255, 255, 0.8));
+  overflow: hidden;
+}
+
+.fieldCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fieldCard:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-light);
+  transform: translateY(-4px);
+}
+
+.fieldCard:hover::before {
+  transform: scaleX(1);
+}
+
+:global(.dark) .fieldCard {
+  background: linear-gradient(135deg, rgba(30, 41, 55, 0.6), rgba(15, 23, 42, 0.8));
+  border-color: var(--border-dark);
+}
+
+:global(.dark) .fieldCard:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-dark);
+}
+
+/* ============================================
+   FIELD BADGE
+   ============================================ */
+
+.fieldBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--gradient-accent);
+  color: white;
+  padding: 0.375rem 0.875rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+  letter-spacing: 0.5px;
+}
+
+:global(.dark) .fieldBadge {
+  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.2);
+}
+
+/* ============================================
+   CUSTOM TAG
+   ============================================ */
+
+.customTag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--gradient-secondary);
+  color: white;
+  padding: 0.375rem 0.875rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+}
+
+:global(.dark) .customTag {
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.2);
+}
+
+/* ============================================
+   LEVEL CIRCLE
+   ============================================ */
+
+.levelCircle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 10;
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+.levelCircle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.levelCircle:hover::before {
+  left: 100%;
+}
+
+:global(.dark) .levelCircle {
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
+/* ============================================
+   VERIFIER CARD
+   ============================================ */
+
+.verifierCard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.05));
+  border-radius: 0.875rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(79, 172, 254, 0.2);
+  transition: all 0.3s ease;
+}
+
+.verifierCard:hover {
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.15), rgba(0, 242, 254, 0.1));
+  border-color: rgba(79, 172, 254, 0.4);
+  transform: translateX(4px);
+}
+
+:global(.dark) .verifierCard {
+  border-color: rgba(79, 172, 254, 0.3);
+}
+
+/* ============================================
+   PUBLISH BUTTON
+   ============================================ */
+
+.publishBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.publishBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.publishBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(102, 126, 234, 0.5);
+}
+
+.publishBtn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.publishBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.publishBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:global(.dark) .publishBtn {
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+:global(.dark) .publishBtn:hover:not(:disabled) {
+  box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
+}
+
+/* ============================================
+   EMPTY STATE ICON
+   ============================================ */
+
+.emptyIcon {
+  width: 5rem;
+  height: 5rem;
+  background: var(--gradient-accent);
+  border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 24px rgba(79, 172, 254, 0.25);
+  animation: bounce 2s infinite;
+  color: white;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+:global(.dark) .emptyIcon {
+  box-shadow: 0 10px 24px rgba(79, 172, 254, 0.15);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .pageHeader h1 {
+    font-size: 1.875rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .quickChip {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+
+  .input {
+    padding: 0.75rem 1rem;
+  }
+
+  .publishBtn {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
