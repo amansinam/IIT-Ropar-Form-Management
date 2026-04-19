@@ -23,11 +23,11 @@ function getInitials(name: string): string {
 
 export const AuthService = {
     // No state/portal param needed — this is admin portal only
-    async loginWithGoogle(): Promise<void> {
-        await signIn('google', {
-            callbackUrl: 'http://localhost:3002/dashboard',
-        });
-    },
+   async loginWithGoogle(): Promise<void> {
+    await signIn('google', {
+        callbackUrl: `${window.location.origin}/dashboard`,
+    });
+},
 
     mapSession(session: Session): AuthUser | null {
         if (!session?.user?.email) return null;
@@ -62,6 +62,6 @@ export const AuthService = {
     },
 
     async logout(): Promise<void> {
-        await signOut({ callbackUrl: 'http://localhost:3002/login' });
-    },
+    await signOut({ callbackUrl: `${window.location.origin}/login` });
+},
 };
