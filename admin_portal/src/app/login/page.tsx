@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic';   // 👈 ADD THIS LINE
 
 import React, { useState, useEffect } from 'react';
+import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import {
@@ -13,7 +14,7 @@ import { toast } from 'sonner';
 import { useSession, signOut } from 'next-auth/react';
 import { AuthService } from '@/lib/auth.service';
 
-export default function LoginPage() {
+function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
@@ -208,5 +209,16 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+
+
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginContent />
+    </Suspense>
   );
 }
