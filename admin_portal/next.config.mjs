@@ -1,14 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow importing images from src/assets
   images: {
     unoptimized: true,
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,  // 👈 ADD THIS
   },
   async rewrites() {
     return [
       {
         source: '/api/:path*',
-        destination: `${process.env.BACKEND_URL}/api/:path*`, // Proxy to backend
+        destination: `${process.env.BACKEND_URL}/api/:path*`,
       },
     ];
   },
