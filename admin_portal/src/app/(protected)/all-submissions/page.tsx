@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';   // 👈 ADD THIS LINE
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-export default function AdminAllSubmissionsRedirectPage() {
+function AdminAllSubmissionsRedirectContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -14,4 +14,8 @@ export default function AdminAllSubmissionsRedirectPage() {
   }, [router, searchParams]);
 
   return null;
+}
+import { Suspense } from 'react';
+export default function AdminAllSubmissionsRedirectPage() {
+  return <Suspense fallback={null}><AdminAllSubmissionsRedirectContent /></Suspense>;
 }

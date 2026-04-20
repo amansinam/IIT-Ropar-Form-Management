@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 import { useSession, signOut } from 'next-auth/react';
 import { AuthService } from '@/lib/auth.service';
 
-function LoginPage() {
+function LoginContent()  {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
